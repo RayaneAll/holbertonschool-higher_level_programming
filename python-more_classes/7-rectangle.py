@@ -53,7 +53,7 @@ class Rectangle:
         return 2 * (self.width + self.height)
 
     def __str__(self):
-        """Returns a string representation of the rectangle using print_symbol."""
+        """Returns string representation of rectangle using print_symbol."""
         if self.width == 0 or self.height == 0:
             return ""
         return "\n".join([str(self.print_symbol) * self.width
