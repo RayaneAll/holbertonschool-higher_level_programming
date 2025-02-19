@@ -1,19 +1,17 @@
-#!/bin/usr/python3
-"""Module task_05_basic_security.py"""
+#!/usr/bin/python3
+"""Module for secure API"""
 from flask import Flask, jsonify, request
-from flask_httpauth import HTTPBasicAuth
-from flask_jwt_extended import (
-    JWTManager, create_access_token, jwt_required, get_jwt_identity
-)
 from werkzeug.security import generate_password_hash, check_password_hash
+from flask_httpauth import HTTPBasicAuth
+from flask_jwt_extended import (JWTManager, create_access_token,
+                                jwt_required, get_jwt_identity)
+
 
 app = Flask(__name__)
-
-# Secret key for JWT
-app.config["JWT_SECRET_KEY"] = "super-secret-key"
+app.config['SECRET_KEY'] = 'superincredibleamazingsecretkey'
+auth = HTTPBasicAuth()
 jwt = JWTManager(app)
 
-# Registered users
 users = {
     "user1": {
         "username": "user1",
@@ -27,63 +25,63 @@ users = {
     }
 }
 
-# Basic Authentication
-auth = HTTPBasicAuth()
-
 
 @auth.verify_password
 def verify_password(username, password):
-    if (username in users and
-            check_password_hash(users[username]["password"], password)):
-        return username
+    user = users.get(username)
+    if user and check_password_hash(user['password'], password):
+        return user
     return None
 
 
-@app.route('/basic-protected', methods=['GET'])
+@app.route('/basic-protected')
 @auth.login_required
 def basic_protected():
-    return jsonify({"message": "Basic Auth: Access Granted"}), 200
+    return "Basic Auth: Access Granted"
 
 
-# JWT login endpoint
+@app.route("/signup", methods=["POST"])
+def signup():
+    username = request.json.get("username", None)
+    password = request.json.get("password", None)
+    if not username:
+        return jsonify({"error": "Missing username"}), 400
+    if not password:
+        return jsonify({"error": "Missing password"}), 400
+    if username in users:
+        return jsonify({"error": "User already exists"}), 400
+    users[username] = {"username": username, "password": generate_password_hash(password), "role": "user"}
+    return jsonify({"message": "User created", "user": users[username]})
+
+
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
-    username = data.get("username")
-    password = data.get("password")
-
-    if not username or not password:
-        return jsonify({"error": "Missing credentials"}), 401
-
+    username = data.get('username')
+    password = data.get('password')
     user = users.get(username)
-    if not user or not check_password_hash(user["password"], password):
-        return jsonify({"error": "Invalid credentials"}), 401
-
-    access_token = create_access_token(
-        identity={"username": username, "role": user["role"]}
-    )
-    return jsonify({"access_token": access_token}), 200
+    if user and check_password_hash(user['password'], password):
+        access_token = create_access_token(identity={'username': username,
+                                                     'role': user['role']})
+        return jsonify(access_token=access_token)
+    return jsonify({"error": "Invalid credentials"}), 401
 
 
-# Route protected by JWT
-@app.route('/jwt-protected', methods=['GET'])
+@app.route('/jwt-protected')
 @jwt_required()
 def jwt_protected():
-    return jsonify({"message": "JWT Auth: Access Granted"}), 200
+    return "JWT Auth: Access Granted"
 
 
-# Route protected for admin only
-@app.route('/admin-only', methods=['GET'])
+@app.route('/admin-only')
 @jwt_required()
 def admin_only():
     current_user = get_jwt_identity()
-    if current_user["role"] != "admin":
+    if current_user['role'] != 'admin':
         return jsonify({"error": "Admin access required"}), 403
+    return "Admin Access: Granted"
 
-    return jsonify({"message": "Admin Access: Granted"}), 200
 
-
-# JWT error handling
 @jwt.unauthorized_loader
 def handle_unauthorized_error(err):
     return jsonify({"error": "Missing or invalid token"}), 401
@@ -109,5 +107,5 @@ def handle_needs_fresh_token_error(err):
     return jsonify({"error": "Fresh token required"}), 401
 
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run()
