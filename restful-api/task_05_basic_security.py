@@ -50,7 +50,11 @@ def signup():
         return jsonify({"error": "Missing password"}), 400
     if username in users:
         return jsonify({"error": "User already exists"}), 400
-    users[username] = {"username": username, "password": generate_password_hash(password), "role": "user"}
+    users[username] = {
+        "username": username,
+        "password": generate_password_hash(password),
+        "role": "user"
+    }
     return jsonify({"message": "User created", "user": users[username]})
 
 
