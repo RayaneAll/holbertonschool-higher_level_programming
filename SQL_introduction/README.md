@@ -23,15 +23,15 @@ By the end of this project, you should be able to:
 ## Resources
 
 ### Reading Materials
-- [What is Database & SQL?](https://example.com)
-- [Install MySQL (MySQL Server)](https://example.com)
-- [A Basic MySQL Tutorial](https://example.com)
-- [Basic SQL statements: DDL and DML](https://example.com)
-- [Basic queries: SQL and RA](https://example.com)
-- [SQL technique: functions](https://example.com)
-- [SQL technique: subqueries](https://example.com)
-- [MySQL Cheat Sheet](https://example.com)
-- [MySQL 8.0 SQL Statement Syntax](https://example.com)
+- [What is Database & SQL?](https://www.youtube.com/watch?v=FR4QIeZaPeM)
+- [Install MySQL (MySQL Server)](https://www.youtube.com/watch?v=9h3ctGFTz9w)
+- [A Basic MySQL Tutorial](https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-ubuntu-20-04)
+- [Basic SQL statements: DDL and DML](https://web.archive.org/sry?page=sql/ddldml.php)
+- [Basic queries: SQL and RA](https://web.archive.org/sry?page=sql/queries.php)
+- [SQL technique: functions](https://web.archive.org/sry?page=sql/functions.php)
+- [SQL technique: subqueries](https://web.archive.org/sry?page=sql/subqueries.php)
+- [MySQL Cheat Sheet](https://intellipaat.com/mediaFiles/2019/02/SQL-Commands-Cheat-Sheet.pdf?US)
+- [MySQL 8.0 SQL Statement Syntax](https://dev.mysql.com/doc/refman/8.0/en/sql-statements.html)
 
 ---
 
