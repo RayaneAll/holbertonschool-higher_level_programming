@@ -16,7 +16,7 @@ class State(Base):
 
     Attributes:
         id (int): Auto-incremented, primary key, cannot be null.
-        name (str): String with maximum length of 128 characters, cannot be null.
+        name (str): String with maximum length of 128 characters
     """
     __tablename__ = 'states'
 
