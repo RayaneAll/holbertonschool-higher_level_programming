@@ -9,13 +9,14 @@ from sqlalchemy.ext.declarative import declarative_base
 # Create the base class for declarative models
 Base = declarative_base()
 
+
 class State(Base):
     """
     State class that maps to the 'states' table in the database.
 
     Attributes:
         id (int): Auto-incremented, primary key, cannot be null.
-        name (str): String with a maximum length of 128 characters, cannot be null.
+        name (str): String with maximum length of 128 characters, cannot be null.
     """
     __tablename__ = 'states'
 
